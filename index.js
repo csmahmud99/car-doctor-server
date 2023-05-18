@@ -70,6 +70,20 @@ async function run() {
             res.send(result);
         });
 
+        // For testing purpose, I am using 'patch' here, 'put' can be used here
+        app.patch("/bookings/:id", async (req, res) => {
+            const id = req.params.id;
+            const updatedBooking = req.body;
+            console.log(updatedBooking);
+            const filter = { _id: new ObjectId(id) };
+            const updateBookedService = {
+                $set: {
+                   status: updatedBooking.status
+                }
+            };
+            const result = await bookingCollection.updateOne(filter, updateBookedService);
+            res.send(result);
+        });
 
         app.delete("/bookings/:id", async (req, res) => {
             const id = req.params.id;
