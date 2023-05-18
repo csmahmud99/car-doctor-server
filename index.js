@@ -44,8 +44,8 @@ async function run() {
             const query = { _id: new ObjectId(id) };
 
             const options = {
-                // Include only the `title` and `imdb` fields in the returned document
-                projection: { title: 1, price: 1, service_id: 1 },
+                // Include the `title`, `price`, `service_id`, `img` fields in the returned document
+                projection: { title: 1, price: 1, service_id: 1, img:1 },
             };
 
             const result = await serviceCollection.findOne(query, options);
@@ -55,7 +55,10 @@ async function run() {
         // Bookings
         app.post("/bookings", async (req, res) => {
             const booking = req.body;
-        })
+            console.log(booking);
+            const result = await bookingCollection.insertOne(booking);
+            res.send(result);
+        });
 
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
